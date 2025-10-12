@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pintando a Palavra — Quiz</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .btn.secondary {
+      background: #fff;
+      border: 2px solid #007BFF;
+      color: #007BFF;
+      margin-top: 10px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: bold;
+      display: inline-block;
+    }
+    .btn.secondary:hover {
+      background: #007BFF;
+      color: #fff;
+    }
+    .badge {
+      background: #ff9800;
+      color: #fff;
+      font-weight: bold;
+      padding: 6px 14px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+    }
+    .quiz-step {
+      text-align: center;
+    }
+    .price {
+      font-size: 1.4rem;
+      margin: 10px 0;
+    }
+    .android-note {
+      background: #fff9e6;
+      border: 1px dashed #ffca28;
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-top: 16px;
+      font-size: 15px;
+      color: #444;
+      line-height: 1.4;
+    }
+    .android-note small {
+      font-size: 13px;
+      color: #666;
+    }
+  </style>
+
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1105530308227786');
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1105530308227786&ev=PageView&noscript=1"/>
+  </noscript>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <div class="quiz-container">
+    <img src="logo.png" alt="Pintando a Palavra" class="logo">
+
+    <!-- Passo 1 -->
+    <section class="quiz-step active">
+      <h1>Pintando a Palavra</h1>
+      <p>Seu filho passa muito tempo na tela?  
+      Descubra uma forma <b>gratuita</b> de transformar esse hábito em <b>fé e aprendizado</b>.</p>
+      <button class="btn next">Descobrir agora →</button>
+    </section>
+
+    <!-- Passo 2 -->
+    <section class="quiz-step">
+      <h2>Quantos anos tem seu filho(a)?</h2>
+      <p>Isso nos ajuda a recomendar a melhor experiência 👇</p>
+      <div class="options">
+        <button class="btn option next">3 anos</button>
+        <button class="btn option next">4 anos</button>
+        <button class="btn option next">5 anos ou mais</button>
+      </div>
+    </section>
+
+    <!-- Passo 3 -->
+    <section class="quiz-step">
+      <h2>O que mais te preocupa hoje?</h2>
+      <div class="options">
+        <button class="btn option next">😣 Fica irritado(a) e sem foco depois do celular</button>
+        <button class="btn option next">📱 Vê vídeos vazios o dia inteiro</button>
+        <button class="btn option next">👨‍👩‍👧 Não quer atividades em família</button>
+        <button class="btn option next">✝️ Quero conteúdo cristão que acalme e ensine</button>
+      </div>
+    </section>
+
+    <!-- Passo 4 -->
+    <section class="quiz-step">
+      <h2>O que os pais estão dizendo</h2>
+      <div class="testimonials">
+        <article class="testimonial-card">
+          <img src="avatar1.jpg" alt="Débora, mãe do Miguel">
+          <div>
+            <p>“Depois de <b>colorir os desenhos bíblicos</b>, ele vai dormir mais calmo.”</p>
+            <span>— Débora, mãe do Miguel (5)</span>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <img src="avatar2.jpg" alt="Marcos, pai da Ester">
+          <div>
+            <p>“Antes só queria vídeos, hoje se concentra <b>aprendendo com cada desenho</b>.”</p>
+            <span>— Marcos, pai da Ester (4)</span>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <img src="avatar3.jpg" alt="Ana Paula, mãe do João">
+          <div>
+            <p>“Virou <b>nosso momento de paz e fé em família</b>.”</p>
+            <span>— Ana Paula, mãe do João (6)</span>
+          </div>
+        </article>
+      </div>
+      <button class="btn next">Continuar →</button>
+    </section>
+
+    <!-- Passo Final -->
+    <section class="quiz-step">
+      <h2>Transforme o tempo de tela em um tempo com Deus.</h2>
+      <p>Um aplicativo de <b>colorir histórias da Bíblia</b> que traz momentos de paz, foco e aprendizado cristão — de forma leve e gratuita.</p>
+      <ul class="features">
+        <li>🎨 Colorir desenhos bíblicos que ensinam valores de fé</li>
+        <li>🕊️ Um momento diário de calma, concentração e propósito</li>
+        <li>👨‍👩‍👧 Um tempo de conexão em família e com Deus</li>
+      </ul>
+      <a id="btnFinal" class="btn cta" href="https://pintandoapalavra.vercel.app/login.html">Acessar gratuitamente →</a>
+      <small>Feito com amor para fortalecer a fé das famílias.</small>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+
+  <!-- Evento Pixel -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      const btnFinal = document.getElementById('btnFinal');
+      if(btnFinal){
+        btnFinal.addEventListener('click', function(){
+          fbq('track', 'Lead', {content_name: 'Acesso Gratuito - Quiz'});
+        });
+      }
+    });
+  </script>
+</body>
+</html>
