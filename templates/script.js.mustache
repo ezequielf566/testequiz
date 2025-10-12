@@ -1,0 +1,10 @@
+(function(){
+  const cta = document.getElementById('cta');
+  const quiz = document.getElementById('quiz');
+  const result = document.getElementById('result');
+  if(!cta||!quiz||!result) return;
+  cta.addEventListener('click', ()=>{
+    quiz.classList.add('hidden');
+    result.classList.remove('hidden');
+  });
+})();
