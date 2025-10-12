@@ -1,6 +1,5 @@
 import { NextRequest } from 'next/server';
 import OpenAI from 'openai';
-// ✅ Caminho corrigido — agora sobe 3 níveis até a pasta /lib
 import { systemPrompt, userPrompt, Inputs } from '../../../lib/prompts';
 
 export const runtime = 'nodejs';
@@ -10,7 +9,7 @@ export async function POST(req: NextRequest) {
   const apiKey = process.env.OPENAI_API_KEY;
   const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
 
-  // ✅ Fallback: modo local (sem IA real)
+  // ⚙️ Caso não exista chave (modo local)
   if (!apiKey) {
     const n = Math.max(4, Math.min(7, parseInt(body.t9 || '5') || 5));
     const fake = {
@@ -32,7 +31,7 @@ export async function POST(req: NextRequest) {
     return Response.json({ ok: true, provider: 'local', data: fake });
   }
 
-  // ✅ Modo IA real (GPT-4)
+  // 🤖 Modo IA real
   const openai = new OpenAI({ apiKey });
 
   try {
@@ -45,8 +44,17 @@ export async function POST(req: NextRequest) {
       ],
     });
 
-    const text = completion.choices?.[0]?.message?.content?.trim() || '{}';
-    const parsed = JSON.parse(text);
+    // 🧹 Limpeza da resposta
+    let text = completion.choices?.[0]?.message?.content?.trim() || '{}';
+    text = text.replace(/```json\s*/gi, '').replace(/```/g, '').trim();
+
+    let parsed;
+    try {
+      parsed = JSON.parse(text);
+    } catch (err) {
+      console.error('⚠️ Falha ao converter JSON:', text);
+      throw new Error('A resposta da IA não veio em JSON válido.');
+    }
 
     return Response.json({ ok: true, provider: 'openai', data: parsed });
   } catch (e: any) {
