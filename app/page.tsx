@@ -41,20 +41,45 @@ export default function Home(){
     const css=`
     :root{--brand:${brand};--bg:#0A0F1A;--text:#E8F6FF;}
     *{box-sizing:border-box;}
-    body{margin:0;font-family:Inter,Arial;background:var(--bg);color:var(--text);text-align:center;}
-    .wrap{max-width:860px;margin:30px auto;padding:0 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+    body{
+      margin:0;
+      font-family:Inter,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      text-align:center;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
+    .wrap{
+      max-width:860px;
+      width:100%;
+      margin:30px auto;
+      padding:0 16px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+    }
     .logo{width:96px;opacity:.95;margin:0 auto 12px;display:block;}
     .hd h1{font-family:${fontTitle};font-weight:700;margin:10px 0 6px;}
     .sub{opacity:.85;margin-top:2px;}
-    .card{margin:22px 0;padding:18px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;text-align:center;}
-    .btn{margin-top:14px;padding:13px 16px;background:var(--brand);color:#001018;border:none;border-radius:12px;font-weight:700;cursor:pointer;display:inline-block;text-decoration:none;}
-    .ops{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:10px;justify-content:center;align-items:center;}
-    .op{padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#101828;color:#fff;cursor:pointer;text-align:center;}
+    .card{margin:22px 0;padding:18px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;text-align:center;width:100%;max-width:600px;}
+    .btn{margin-top:14px;padding:13px 16px;background:var(--brand);color:#001018;border:none;border-radius:12px;font-weight:700;cursor:pointer;display:inline-block;text-decoration:none;width:auto;}
+    .ops{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:10px;justify-content:center;align-items:center;width:100%;}
+    .op{padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#101828;color:#fff;cursor:pointer;text-align:center;font-size:15px;}
     .op:hover{border-color:var(--brand);}
     .hidden{display:none;}
-    .progress{height:6px;background:rgba(255,255,255,.08);border-radius:6px;overflow:hidden;margin:8px 0 14px;}
+    .progress{height:6px;background:rgba(255,255,255,.08);border-radius:6px;overflow:hidden;margin:8px 0 14px;width:100%;max-width:600px;}
     .bar{height:100%;width:0%;background:var(--brand);transition:width .25s ease;}
-    `;
+    @media (max-width:768px){
+      .card{padding:14px;margin:14px 0;}
+      .ops{grid-template-columns:1fr;}
+      .btn{width:100%;font-size:16px;}
+      .hd h1{font-size:22px;}
+      .sub{font-size:15px;}
+    }`;
 
     const pkgHtml = g.packages?.length
       ? `<div class="card"><h3>Planos & Pacotes</h3><ul style="list-style:none;padding:0;">${g.packages.map(p=>`<li><strong>${p.name}</strong> — ${p.description}${p.price?` • <em>${p.price}</em>`:''}</li>`).join('')}</ul></div>`
@@ -90,7 +115,6 @@ export default function Home(){
       const result=document.getElementById('result');
       const bar=document.getElementById('bar');
 
-      // primeira tela
       stage.innerHTML='<div class="q"><h2>'+data.headline+'</h2><p>'+data.subheadline+'</p><button id="start" class="btn">Começar</button></div>';
       document.getElementById('start').addEventListener('click',()=>{ i=0; renderQuestion(i); });
 
@@ -113,8 +137,8 @@ export default function Home(){
         result.classList.remove('hidden');
         bar.style.width='100%';
       }
-    })();
-    `;
+    })();`;
+
     return {html, css, js};
   }
 
@@ -126,10 +150,7 @@ export default function Home(){
 
     const data=j.data;
     const {html,css,js}=buildQuiz(data,g.t4);
-    const full=html
-      .replace('<link rel="stylesheet" href="./style.css"/>', `<style>${css}</style>`)
-      .replace('<script src="./script.js"></script>', `<script>${js}</script>`);
-
+    const full=html.replace('<link rel="stylesheet" href="./style.css"/>', `<style>${css}</style>`).replace('<script src="./script.js"></script>', `<script>${js}</script>`);
     setPreviewHtml(full);
     setTimeout(()=>{ const iframe=iframeRef.current; if(iframe) iframe.srcdoc=full; },0);
     setActive(steps.length-1);
@@ -140,14 +161,11 @@ export default function Home(){
     if(!previewHtml) return alert('Gere o preview primeiro.');
     const css=(previewHtml.match(/<style>([\\s\\S]*?)<\\/style>/)||[])[1]||'';
     const js=(previewHtml.match(/<script>([\\s\\S]*?)<\\/script>\\s*<\\/body>/)||[])[1]||'';
-    let html=previewHtml
-      .replace(/<style>[\\s\\S]*?<\\/style>/,'<link rel="stylesheet" href="./style.css"/>')
-      .replace(/<script>[\\s\\S]*?<\\/script>\\s*<\\/body>/,'<script src="./script.js"></script></body>');
+    let html=previewHtml.replace(/<style>[\\s\\S]*?<\\/style>/,'<link rel="stylesheet" href="./style.css"/>').replace(/<script>[\\s\\S]*?<\\/script>\\s*<\\/body>/,'<script src="./script.js"></script></body>');
     const zip=new JSZip(); zip.file('index.html',html); zip.file('style.css',css); zip.file('script.js',js);
     if(logoData){ const base64=logoData.split(',')[1]||''; zip.file('logo.png',base64,{base64:true}); }
-    const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE'});
-    const url=URL.createObjectURL(blob); const a=document.createElement('a');
-    a.href=url; a.download=\`Quiz-\${(g.t0||'Quiz-IA')}.zip\`; a.click(); URL.revokeObjectURL(url);
+    const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE'}); const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download=\`Quiz-\${(g.t0||'Quiz-IA')}.zip\`; a.click(); URL.revokeObjectURL(url);
   }
 
   return (<div className="container">
@@ -155,15 +173,13 @@ export default function Home(){
     <div className="grid">
       <aside className="sidebar">{steps.map((s,i)=>(<div key={i} className={\`step \${i===active?'active':''}\`}>{i+1}. {s}</div>))}</aside>
       <main>
-        {/* Etapas do formulário (idênticas às anteriores) */}
-        {/* ... (mantém todas as seções) ... */}
+        {/* Formulário das etapas - mantido igual */}
         {active===6&&(<div className="card">
           <div className="actions" style={{marginBottom:10}}>
             <button className="btn primary" onClick={gerar} disabled={loading}>{loading?'Gerando com IA…':'Gerar quiz com IA'}</button>
             <button className="btn" onClick={downloadZip}>Baixar ZIP</button>
           </div>
           <iframe ref={iframeRef} className="preview" title="Prévia do Quiz"></iframe>
-          <p className="footer-note">Prévia local centralizada. O download exporta os arquivos finais.</p>
         </div>)}
         <div className="actions"><button className="btn" onClick={back} disabled={active===0}>Voltar</button><button className="btn" onClick={next} disabled={active===steps.length-1}>Próximo</button></div>
       </main>
